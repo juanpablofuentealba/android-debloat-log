@@ -165,7 +165,67 @@ El script entiende: `QUITADO`/`OK` -> `cmd package install-existing`;
 
 ---
 
-## 9. Archivos relacionados (todos en ~/debloat/)
+## 9. Sesión de recuperación (24-oct 07:3x) — intento paso 1
+
+Contexto nuevo aportado por el usuario:
+- **No tiene root**, solo **Shizuku** (moe.shizuku.privileged.api) + rish.
+- Usa **ReVanced/Morphe**: `app.revanced.android.gms`, `app.morphe.android.apps.photos`,
+  `app.morphe.android.youtube`, `app.morphe.android.apps.youtube.music`,
+  `app.morphe.manager`, `com.revanced.net.revancedmanager`.
+- **ReVanced ya estaba instalado ANTES del 1er debloat** => NO es causa raíz del UA599
+  (la app funcionaba con ReVanced presente). Se mantiene como factor secundario posible.
+- WebView: se detectó una **canary `157.0.8103.14`** y el usuario la **bajó a estable
+  `140.0.7339.207`**. (Antes del incidente pudo estar la canary => candidato real.)
+- `com.google.android.gms` oficial sigue instalado y habilitado; `app.revanced.android.gms`
+  es ADICIONAL, no reemplaza al oficial.
+
+Estado Shizuku/rish:
+- Tras reiniciar el teléfono Shizuku se detiene. Se reactivó y `~/rish -c "echo OK"` => `OK`.
+- rish: `~/rish` + `~/rish_shizuku.dex` ya desplegados en HOME (origen: `~/shz/`).
+  NO hacen falta los archivos de Downloads.
+
+### Intento paso 1: borrar SOLO caché de BancoEstado
+
+```bash
+~/rish -c "pm clear --cache-only net.veritran.becl.prod"
+```
+
+**RESULTADO: FALLA.** Salida real:
+
+```
+cmd: Failure calling service package: Failed transaction (2147483646)
+```
+
+**Causa:** Shizuku **sin root** no puede ejecutar `pm clear` (restricción de permisos
+SELinux; `pm clear` requiere privilegios que Shizuku no otorga). NO es problema de la app.
+
+**Alternativa (sin Shizuku):** borrar caché a mano:
+Ajustes -> Apps -> BancoEstado -> Almacenamiento -> **Borrar caché** (NO borrar datos).
+
+### Comandos preparados para los siguientes pasos (rish OK)
+
+```bash
+# Paso 2: restaurar SIM Toolkit quitado por el debloat
+~/rish -c "cmd package install-existing com.android.stk"
+
+# Paso 3: reactivar supervision de GMS
+~/rish -c "pm enable com.google.android.gms.supervision"
+
+# Paso 4 (si nada funciona): deshabilitar GMS de ReVanced temporalmente
+~/rish -c "pm disable-user --user 0 app.revanced.android.gms"
+# re-habilitar:
+~/rish -c "pm enable app.revanced.android.gms"
+```
+
+### Nota entorno Shizuku (reencontrada)
+
+- El timeout inicial de rish fue por: Shizuku detenido tras reinicio + optimización de
+  batería. Solución: reiniciar Shizuku (depuración inalámbrica o ADB) y poner Termux y
+  Shizuku en **Sin restricciones** de batería.
+
+---
+
+## 10. Archivos relacionados (todos en ~/debloat/)
 
 ```
 1-lista-objetivos.sh                      # inventario (solo lectura)
