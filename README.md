@@ -19,6 +19,8 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 | `2-desinstalar-rish.sh` | Debloat conservador vía rish |
 | `2b-desinstalar-pendientes-rish.sh` | Segundo debloat (pendientes) |
 | `3-restaurar.sh` | Restauración reversible |
+| `5-modo-banco.sh` | Apaga Depuración USB para usar **BancoEstado** (requiere rish activo) |
+| `6-modo-shizuku.sh` | Pasos para reactivar **Shizuku** (encender Depuración USB) |
 
 ## TL;DR del incidente (RESUELTO ✅)
 
@@ -55,6 +57,23 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
   fallan con `Failed transaction (2147483646)`.
 - El interruptor "Opciones de desarrollador" y "Depuración USB" son **cosas
 distintas**: Veritran mira **ADB**.
+
+## Alternar entre BancoEstado y Shizuku
+
+Veritran bloquea mientras la **Depuración USB (ADB)** esté encendida. Para alternar:
+
+**Para usar el BANCO** (con rish aún activo):
+```bash
+bash ~/debloat/5-modo-banco.sh
+# luego: borrar datos de BancoEstado + reiniciar
+```
+
+**Para volver a usar SHIZUKU** (a mano, porque ADB está OFF):
+1. Ajustes > Opciones de desarrollador > **Depuración USB = ON** + **inalámbrica = ON**
+2. Abrir Shizuku e inicialarlo.
+3. (Con PC: `adb shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh`)
+
+> Regla: **ADB ON = Shizuku funciona, banco bloqueado. ADB OFF = banco funciona, Shizuku detenido.**
 
 ## Restauración total
 
