@@ -311,7 +311,84 @@ paso crítico: **borrar DATOS / reinstalar** (la app guarda el resultado de la d
 
 ---
 
-## 11. Archivos relacionados (todos en ~/debloat/)
+## 12. SESIÓN 24-oct (tarde) — DESCARTE DEFINITIVO DEL DEBLOAT Y DE SHIZUKU
+
+El usuario ejecutó **todo** el plan y el UA599 **persiste**:
+
+| Acción ejecutada | Resultado |
+|---|---|
+| Apagar Modo Desarrollador | UA599 sigue |
+| Detener Shizuku (0 procesos) | UA599 sigue |
+| Borrar DATOS de BancoEstado | UA599 sigue |
+| Desinstalar la app | OK |
+| Reiniciar el equipo | OK |
+| Reinstalar desde Play Store | **UA599 sigue** |
+
+### 12.1 PRUEBA LÓGICA DECISIVA (aportada por el usuario)
+
+El usuario tiene **otras apps financieras que funcionan perfectamente**:
+- **Mercado Pago** (`com.mercadopago.wallet`) → OK
+- **Mach BCI** (`cl.bci.sismo.mach`) → OK
+- **Banco Falabella** → OK
+- **SumUp con Tap to Pay / NFC** → OK (esta exige Play Integrity fuerte)
+- **Global66** (`com.global66.cards`), **OnePay** (`cl.transbank.onepay`) → OK
+- **ReVanced/Morphe, Shizuku, F-Droid, APK Extractor, Termux** ya estaban **ANTES**
+  del primer debloat, y esos bancos NO los detectan como peligrosos.
+
+**Conclusión:** si una app que exige **Play Integrity fuerte** (SumUp Tap to Pay)
+funciona, y otras fintech funcionan, entonces **NO es detección de root/Shizuku/
+debloat**. Es un problema **ESPECÍFICO de la app de BancoEstado / su plataforma
+Veritran**, no del dispositivo.
+
+### 12.2 Sistema verificado LIMPIO (a nivel Android)
+
+```
+ro.boot.verifiedbootstate = green     # bootloader íntegro
+ro.boot.flash.locked      = 1         # bootloader BLOQUEADO
+ro.boot.veritymode        = enforcing # dm-verity activo
+ro.build.tags             = release-keys
+ro.build.type             = user      # firmware oficial
+ro.crypto.state           = encrypted
+/sbin/magisk              -> no existe
+su en PATH                -> no existe
+```
+
+=> A nivel de sistema operativo el equipo **NO está rooteado ni modificado**.
+
+### 12.3 Causas probables restantes (NO relacionadas con el debloat)
+
+1. **Falso positivo propio de la app de BancoEstado / Veritran** sobre este modelo
+   (POCO `2410FPCC5G`, HyperOS 3.0, Android 16, build `OS3.0.307.0.WGTMIXM`).
+2. **Versión de la app incompatible** con Android 16 / HyperOS 3 (build muy nuevo).
+3. **Bloqueo del lado del banco** para esta cuenta/dispositivo (token, intentos
+   fallidos, o el canal rechaza el device fingerprint).
+4. **Play Integrity / atestación de hardware** que Veritran exige y que falla
+   específicamente con la huella de este dispositivo (aunque el SO esté limpio).
+
+### 12.4 Siguientes pasos recomendados (fuera del ámbito de Termux/Shizuku)
+
+1. **Probar la cuenta en OTRO teléfono** (de un familiar/amigo).
+   - Si funciona ahí → el problema es la combinación app+este dispositivo.
+   - Si falla en otro teléfono también → el problema es **la cuenta/bloqueo del banco**.
+2. **Llamar a BancoEstado** (600 200 7000 / app) y pedir **desbloqueo del canal
+   digital** y reportar el código **UA599 (R:5)**. Mencionar que el equipo NO tiene
+   root y el modo desarrollador está desactivado.
+3. **Comparar versión de la app** con la Play Store; reportar si es build reciente.
+4. **Reportar el modelo** (POCO 2410FPCC5G, Android 16 / HyperOS 3) para descartar
+   incompatibilidad conocida.
+5. **Usar la banca web** (bancoestado.cl) mientras se resuelve, o el sitio en
+   navegador del teléfono.
+
+### 12.5 Qué NO vale la pena seguir probando
+
+- Restaurar apps del debloat (no es la causa).
+- Desinstalar Shizuku/F-Droid/Termux/Morphe (no es la causa; ya estaban antes y
+  otros bancos funcionan).
+- Seguir borrando datos/reinstalando (ya se hizo y no cambia).
+
+---
+
+## 13. Archivos relacionados (todos en ~/debloat/)
 
 ```
 1-lista-objetivos.sh                      # inventario (solo lectura)

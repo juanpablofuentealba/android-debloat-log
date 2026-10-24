@@ -63,6 +63,37 @@ depuración inalámbrica). Al desactivar el Modo Desarrollador, **Shizuku se det
 Se detectó una WebView canary `157.0.8103.14`; se bajó a estable `140.0.7339.207`.
 No era la causa del UA599, pero es bueno dejarla estable.
 
+## ACTUALIZACIÓN 24-oct (tarde): hipótesis del dev mode DESCARTADA
+
+Se ejecutó el plan completo y el UA599 **persiste**: apagar dev mode, detener
+Shizuku, borrar DATOS, desinstalar, reiniciar, reinstalar. Nada funcionó.
+
+### Evidencia de que NO es el dispositivo ni el debloat
+
+- **SumUp con Tap to Pay (NFC)** funciona => Play Integrity fuerte PASA.
+- **Mercado Pago, Mach BCI, Banco Falabella, Global66, OnePay** funcionan.
+- **Shizuku, F-Droid, APK Extractor, Termux, ReVanced/Morphe** ya estaban ANTES
+  del 1er debloat y esos bancos no se quejan.
+- Sistema limpio: bootloader bloqueado, verified boot green, sin magisk, sin su,
+  firmware oficial `user/release-keys`.
+
+### Conclusión
+
+El problema es **específico de la app de BancoEstado / Veritran** (falso positivo,
+versión incompatible con Android 16 / HyperOS 3, o bloqueo del lado del banco).
+
+### Qué hacer ahora (fuera de Termux)
+
+1. Probar la cuenta en **otro teléfono** (clave para saber si es la cuenta o el equipo).
+2. **Llamar a BancoEstado** y reportar **UA599 (R:5)** + pedir desbloqueo del canal.
+   Indicar que el equipo no tiene root y el dev mode está OFF.
+3. Verificar **versión de la app** vs Play Store.
+4. Usar la **banca web** mientras tanto.
+
+### Modelo afectado
+
+- POCO `2410FPCC5G`, HyperOS 3.0, **Android 16**, build `OS3.0.307.0.WGTMIXM`.
+
 ## Estado final esperado
 
 | Elemento | Estado |
