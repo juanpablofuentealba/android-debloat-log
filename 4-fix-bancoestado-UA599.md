@@ -1,23 +1,28 @@
-# Fix BancoEstado UA599 — Guía definitiva (sin root)
+# Fix BancoEstado UA599 — Guía definitiva (sin root) ✅ RESUELTO
 
 Dispositivo: POCO (MIUI/HyperOS) · App: `net.veritran.becl.prod`
 Actualizado: 2026-10-24
 
-## Causa raíz
+## Causa raíz (confirmada)
 
-BancoEstado (plataforma Veritran) lanza **UA599** cuando detecta
-**Modo Desarrollador / Depuración USB / Depuración inalámbrica activos**,
-o **root/superusuario**. Confirmado por:
-- bytepeaker.com · doncomo.com · notesread.com
-- Reclamos.cl: "Banco Estado te Bloquea Rut Pay si tienes modo Desarrollador Activo"
+BancoEstado (plataforma Veritran) lanza **UA599** cuando detecta el entorno de
+desarrollo. **El disparador específico es la DEPURACIÓN USB (ADB)**, no solo el
+interruptor de "Modo Desarrollador".
 
-En este equipo: **sin root**, pero se usa **Shizuku** (que requiere dev mode +
-depuración inalámbrica). Al desactivar el Modo Desarrollador, **Shizuku se detiene**.
+> ⚠️ **Clave:** "Opciones de desarrollador" y "Depuración USB" son **cosas
+distintas**. Veritran mira el estado de **ADB**.
+> - Modo Desarrollador **ON** + Depuración USB **OFF** → la app **funciona** ✅
+> - Depuración USB **ON** → **UA599** ❌
+
+En este equipo: **sin root**, pero se usa **Shizuku** (que requiere ADB +
+depuración inalámbrica). Al cortar ADB, **Shizuku se detiene**.
 
 ## Pasos definitivos (en orden)
 
-### 1. Apagar todo lo de desarrollo
-- Ajustes -> Sistema -> Opciones de desarrollador -> **switch superior OFF**.
+### 1. Apagar la DEPURACIÓN USB (paso CLAVE)
+- Ajustes -> Sistema -> Opciones de desarrollador -> **Depuración USB = OFF**
+  y **Depuración inalámbrica = OFF**. (Este es el paso que resuelve.)
+- Opcionalmente, apagar también el switch superior de "Opciones de desarrollador".
 - Dentro, verificar **Depuración USB = OFF** y **Depuración inalámbrica = OFF**.
 - Confirmado por rish antes de perderlo:
   ```

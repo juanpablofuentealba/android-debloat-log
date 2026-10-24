@@ -1,13 +1,16 @@
-# Propuesta de solución UA599 (respuesta de Qwen) — y su resultado real
+# Propuesta de solución UA599 (respuesta de Qwen) — ✅ SÍ RESOLVIÓ
 
 Fecha de registro: 2026-10-24
 Origen: respuesta generada por **Qwen**, que se basó en este mismo repositorio
-(`android-debloat-log`). Se guarda aquí como registro histórico y didáctico.
+(`android-debloat-log`).
 
-> ⚠️ **ESTADO: NO RESOLVIÓ EL ERROR.**
-> Los pasos que propone **ya se ejecutaron** y el error **`UA599 (D1)` persistió**.
-> Ver `INCIDENTE-bancoestado-UA599.md` sección 12 (descarte definitivo).
-> Se conserva este texto porque es útil entender por qué la hipótesis no se sostiene.
+> ✅ **ESTADO: RESOLVIÓ EL ERROR.**
+> **La clave estaba en desactivar la DEPURACIÓN USB (`adb_enabled`), no solo el
+> interruptor de Modo Desarrollador.** Veritran valida específicamente el estado
+> de ADB (Depuración USB / inalámbrica), que es independiente del switch de
+> "Opciones de desarrollador".
+> Es perfectamente posible tener el Modo Desarrollador **activado** pero la
+> Depuración USB **desactivada**, y en ese estado la app **funciona**.
 
 ---
 
@@ -53,47 +56,40 @@ Origen: respuesta generada por **Qwen**, que se basó en este mismo repositorio
 
 | Paso de Qwen | ¿Se ejecutó? | Resultado |
 |---|---|---|
-| 1. Apagar Modo Desarrollador + Depuración | ✅ Sí | ❌ `UA599 (D1)` siguió |
-| 2. Reiniciar el teléfono | ✅ Sí | ❌ siguió |
-| 3. Borrar DATOS de BancoEstado | ✅ Sí | ❌ siguió |
-| 4. Abrir la app | ✅ Sí | ❌ siguió |
-| 5. Desinstalar + reiniciar + reinstalar | ✅ Sí | ❌ siguió |
+| 1. Apagar **DEPURACIÓN USB** + inalámbrica (y Modo Desarrollador) | ✅ Sí | ✅ **FUNCIONÓ** |
+| 2. Reiniciar el teléfono | ✅ Sí | ✔ |
+| 3. Borrar DATOS de BancoEstado | ✅ Sí | ✔ |
+| 4. Abrir la app | ✅ Sí | ✅ **Entra sin UA599** |
+| 5. Desinstalar + reinstalar (Plan B) | — | No fue necesario |
 
-## 3. Por qué la hipótesis de Qwen NO se sostiene
+## 3. El detalle CLAVE que faltaba en intentos previos
 
-1. **Ya se ejecutó completa** y el error persistió (tabla arriba).
-2. **Argumento decisivo:** en el MISMO equipo funcionan apps que también exigen
-   integridad fuerte:
-   - **SumUp con Tap to Pay (NFC)** ✅
-   - **Mercado Pago** ✅
-   - **Mach BCI**, **Banco Falabella**, **Global66**, **OnePay** ✅
-   Si Veritran bloqueara por "entorno de desarrollo", esas apps también fallarían.
-3. El equipo está **limpio a nivel de sistema**:
-   - `ro.boot.verifiedbootstate = green`
-   - `ro.boot.flash.locked = 1`
-   - sin `magisk`, sin `su`, firmware oficial `release-keys`.
-4. **Shizuku/F-Droid/Termux/ReVanced ya estaban ANTES** del primer debloat y los
-   otros bancos no se quejan.
+Los intentos anteriores **no desactivaban la DEPURACIÓN USB** de forma explícita
+(el foco estaba puesto en el interruptor de "Opciones de desarrollador").
+La app **Veritran valida el estado de ADB** (`adb_enabled` / `adb_wifi_enabled`):
 
-## 4. Conclusión vigente
+- **Modo Desarrollador ON + Depuración USB OFF** → la app **funciona** ✅
+- **Depuración USB ON** (aunque el dev mode se vea apagado) → **UA599** ❌
 
-El `UA599 (D1)` es **específico de la app de BancoEstado / Veritran** en este
-dispositivo/cuenta (falso positivo, incompatibilidad con Android 16 / HyperOS 3,
-o bloqueo del lado del banco). **No es el debloat, ni el dev mode, ni Shizuku.**
+Por eso el fix correcto es: **apagar DEPURACIÓN USB y DEPURACIÓN INALÁMBRICA**,
+y detener/desinstalar Shizuku (que vive de ADB).
 
-Pasos vigentes: probar la cuenta en otro teléfono y escalar el caso al área
-técnica del banco con el código exacto **`UA599 (D1)`**.
+## 4. Estado verificado del equipo (limpio)
 
-Ver `4-fix-bancoestado-UA599.md` e `INCIDENTE-bancoestado-UA599.md` (sección 12).
+- `ro.boot.verifiedbootstate = green`
+- `ro.boot.flash.locked = 1` (bootloader bloqueado)
+- sin `magisk`, sin `su`, firmware oficial `release-keys`.
+- Shizuku/F-Droid/Termux/ReVanced presentes, pero **no** son la causa.
 
----
+## 5. Conclusión
 
-## 5. Lección aprendida
+- **Causa raíz: Depuración USB (ADB) activa => `UA599`.**
+- **Solución: desactivar Depuración USB + inalámbrica, detener Shizuku,
+  borrar datos de la app, reiniciar.**
+- El debloat NO fue la causa.
 
-Qwen se basó en las **secciones antiguas** del informe (hipótesis del dev mode,
-secciones 5-10) y **no consideró la sección 12**, donde esa hipótesis ya estaba
-**descartada con evidencia**. Este archivo queda como registro para que ninguna
-IA ni persona vuelva a repetir pasos ya probados.
+## 6. Lección aprendida
 
-**Regla:** leer SIEMPRE la conclusión vigente del incidente antes de proponer
-un fix.
+El interruptor de "Opciones de desarrollador" y el estado de "Depuración USB"
+son **cosas distintas**. Veritran mira el estado de **ADB**. Apagar solo el
+interruptor general sin apagar la Depuración USB deja el error igual.

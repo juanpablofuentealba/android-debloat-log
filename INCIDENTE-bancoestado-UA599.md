@@ -311,18 +311,27 @@ paso crítico: **borrar DATOS / reinstalar** (la app guarda el resultado de la d
 
 ---
 
-## 12. SESIÓN 24-oct (tarde) — DESCARTE DEFINITIVO DEL DEBLOAT Y DE SHIZUKU
+## 12. SESIÓN 24-oct (tarde) — 🔴 HIPÓTESIS (luego superada por la solución real)
 
-El usuario ejecutó **todo** el plan y el UA599 **persiste**:
+> **⚠️ NOTA:** Esta sección contiene el análisis de una etapa intermedia. La
+> **causa raíz real se encontró después** y está en la **sección 14**: era la
+> **DEPURACIÓN USB (ADB)**. Los intentos de esta sección apagaban el interruptor
+> de "Modo Desarrollador" pero **no la Depuración USB de forma explícita**, por
+> eso el error persistía. **Ver sección 14 (RESUELTO).**
+
+El usuario ejecutó el plan y el UA599 **persistía**:
 
 | Acción ejecutada | Resultado |
 |---|---|
-| Apagar Modo Desarrollador | UA599 sigue |
+| Apagar Modo Desarrollador (sin apagar Depuración USB) | UA599 sigue |
 | Detener Shizuku (0 procesos) | UA599 sigue |
 | Borrar DATOS de BancoEstado | UA599 sigue |
 | Desinstalar la app | OK |
 | Reiniciar el equipo | OK |
 | Reinstalar desde Play Store | **UA599 sigue** |
+
+> El detalle que faltaba: la Depuración USB seguía activa (`adb_enabled=1`) aun
+> con el interruptor general apagado/encendido. Ver sección 14.
 
 ### 12.1 PRUEBA LÓGICA DECISIVA (aportada por el usuario)
 
@@ -390,12 +399,68 @@ Es un **código interno propietario de Veritran**, no documentado públicamente.
 5. **Usar la banca web** (bancoestado.cl) mientras se resuelve, o el sitio en
    navegador del teléfono.
 
-### 12.5 Qué NO vale la pena seguir probando
+### 12.5 Qué resultó NO ser la causa
+
+- El **debloat**: ninguna app quitada es dependencia de la banca.
+- **Shizuku/F-Droid/Termux/ReVanced** por sí solos: ya estaban antes y otros
+  bancos (Mercado Pago, SumUp Tap to Pay) funcionan.
+- El **interruptor de "Modo Desarrollador"** por sí solo (lo que sí importa es
+  la **Depuración USB** — ver sección 14).
+
+### 12.6 (Superado) Qué NO vale la pena seguir probando
 
 - Restaurar apps del debloat (no es la causa).
 - Desinstalar Shizuku/F-Droid/Termux/Morphe (no es la causa; ya estaban antes y
   otros bancos funcionan).
 - Seguir borrando datos/reinstalando (ya se hizo y no cambia).
+
+---
+
+## 14. ✅ SOLUCIÓN REAL — RESUELTO (24-oct)
+
+**Causa raíz: la DEPURACIÓN USB (ADB) activa.** No era el debloat, ni Shizuku
+por sí solo, ni el interruptor de "Opciones de desarrollador".
+
+### 14.1 El detalle clave
+
+El interruptor **"Opciones de desarrollador"** y el estado de **"Depuración USB"**
+son **cosas distintas**. Se puede tener:
+
+| Modo Desarrollador | Depuración USB (ADB) | Resultado en la app |
+|---|---|---|
+| ON | OFF | ✅ Funciona |
+| OFF | ON | ❌ `UA599` |
+| ON | ON | ❌ `UA599` |
+
+Veritran valida el **estado de ADB** (`adb_enabled` / `adb_wifi_enabled`). Los
+intentos previos apagaban el interruptor general pero **no la Depuración USB**,
+por eso el error seguía.
+
+### 14.2 Fix que funcionó (paso a paso)
+
+1. **Apagar la DEPURACIÓN USB** (Ajustes -> Opciones de desarrollador -> Depuración USB OFF).
+2. **Apagar la DEPURACIÓN INALÁMBRICA** (off).
+3. **Detener/desinstalar Shizuku** (vive de ADB; al cortar ADB se detiene).
+4. **Reiniciar** el teléfono.
+5. **Borrar DATOS** de BancoEstado (no solo caché).
+6. Abrir la app -> **entra sin UA599**. ✅
+
+> También funciona tener el **Modo Desarrollador encendido** siempre que la
+> **Depuración USB esté apagada**.
+
+### 14.3 Confirmación
+
+El usuario confirmó que la app **entra correctamente** tras este fix. Crédito: la
+propuesta vino de **Qwen** (que se basó en este repositorio). Detalle en
+`5-propuesta-qwen-UA599.md`.
+
+### 14.4 Conclusión final del incidente
+
+- **NO fue el debloat.**
+- **NO fue root** (el equipo nunca tuvo root).
+- **SÍ fue la Depuración USB (ADB).** Veritran la detecta como "entorno de desarrollo".
+- Para usar Shizuku/rish (que requiere ADB) hay que aceptar que la banca móvil
+  se bloqueará mientras la Depuración USB esté encendida.
 
 ---
 
