@@ -1,0 +1,19 @@
+# Desinstalados (user 0), modo conservador, Fri Oct 23 10:56:04 -03 2026
+FALLO com.miui.msa.global
+FALLO com.miui.analytics
+FALLO com.miui.misightservice
+FALLO com.miui.bugreport
+FALLO com.xiaomi.mipicks
+FALLO com.miui.player
+FALLO com.miui.videoplayer
+FALLO com.miui.cleaner
+FALLO com.miui.yellowpage
+FALLO com.mi.globalbrowser
+FALLO com.mi.appfinder
+FALLO com.miui.fm
+FALLO com.miui.fmservice
+FALLO com.miui.miservice
+FALLO com.xiaomi.midrop
+FALLO com.xiaomi.discover
+FALLO com.mi.globalminusscreen
+FALLO com.miui.vsimcore

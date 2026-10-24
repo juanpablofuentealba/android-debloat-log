@@ -1,0 +1,19 @@
+# Desinstalados (user 0) modo conservador via rish, Fri Oct 23 11:15:00 -03 2026
+com.miui.msa.global  (ya hecho antes)
+OK com.miui.analytics
+OK com.miui.misightservice
+OK com.miui.bugreport
+OK com.xiaomi.mipicks
+OK com.miui.player
+OK com.miui.videoplayer
+OK com.miui.cleaner
+OK com.miui.yellowpage
+OK com.mi.globalbrowser
+OK com.mi.appfinder
+OK com.miui.fm
+OK com.miui.fmservice
+OK com.miui.miservice
+SKIP com.xiaomi.midrop
+OK com.xiaomi.discover
+OK com.mi.globalminusscreen
+OK com.miui.vsimcore

@@ -1,0 +1,6 @@
+# Debloat user 0 via rish, 20261023_192145
+# formato: RESULTADO paquete  (QUITADO|DESHABILITADO|SKIP)
+SKIP com.miui.daemon (ausente)
+DESHABILITADO com.xiaomi.midrop
+SKIP com.xiaomi.glgm (ausente)
+SKIP com.android.stk (ausente)

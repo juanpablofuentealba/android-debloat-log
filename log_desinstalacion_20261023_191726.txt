@@ -1,0 +1,5 @@
+# Desinstalados user 0 via rish (pendientes), Fri Oct 23 19:17:28 -03 2026
+OK com.miui.daemon
+SKIP com.xiaomi.midrop (Failure [-1000])
+OK com.xiaomi.glgm
+OK com.android.stk

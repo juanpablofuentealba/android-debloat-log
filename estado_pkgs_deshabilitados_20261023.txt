@@ -1,0 +1,10 @@
+com.android.virtualization.terminal
+com.boundax.koreapreloadappinstaller
+com.google.android.apps.photos
+com.google.android.apps.youtube.music
+com.google.android.devicelockcontroller
+com.google.android.gms.supervision
+com.google.android.ims
+com.google.android.youtube
+com.miui.virtualsim
+com.xiaomi.midrop
