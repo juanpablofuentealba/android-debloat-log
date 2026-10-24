@@ -355,6 +355,17 @@ su en PATH                -> no existe
 
 => A nivel de sistema operativo el equipo **NO está rooteado ni modificado**.
 
+### 12.2b Subcódigo exacto: UA599 (D1)
+
+El usuario confirmó que su error es **`UA599 (D1)`** (no `R:5`, que era el de los
+reclamos web). Búsqueda web de `"UA599" "D1"` => **Bing: "No hay resultados"**.
+Es un **código interno propietario de Veritran**, no documentado públicamente.
+
+- El subcódigo (`D1`, `R:5`, etc.) indica el punto exacto del fallo dentro del
+  microsite Veritran, pero **la familia UA599 es la misma**: entorno/validación
+  no válida.
+- No cambia el diagnóstico: problema específico de la app + este dispositivo/cuenta.
+
 ### 12.3 Causas probables restantes (NO relacionadas con el debloat)
 
 1. **Falso positivo propio de la app de BancoEstado / Veritran** sobre este modelo
