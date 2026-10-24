@@ -7,7 +7,8 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 
 | Archivo | Descripción |
 |---|---|
-| `INCIDENTE-bancoestado-UA599.md` | Informe completo: cronología, apps quitadas, estado verificado, análisis y plan de recuperación |
+| `INCIDENTE-bancoestado-UA599.md` | Informe completo: cronología, apps quitadas, estado verificado, análisis, **investigación web** y plan de recuperación |
+| `4-fix-bancoestado-UA599.md` | **Guía definitiva del fix**: causa raíz = Modo Desarrollador/Depuración |
 | `backup_pkgs_20261023.txt` | Backup de paquetes **pre-debloat** |
 | `estado_pkgs_20261023_post-debloat.txt` | Estado de paquetes **post-debloat** |
 | `estado_pkgs_deshabilitados_20261023.txt` | Paquetes deshabilitados |
@@ -21,10 +22,25 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 ## TL;DR del incidente
 
 - App afectada: `net.veritran.becl.prod` (BancoEstado, plataforma Veritran/Microsite).
-- **Ninguna app quitada por el debloat es dependencia directa de la banca.**
-- Único sospechoso plausible: `com.android.stk` (SIM Toolkit).
-- El UA599 apunta a **WebView / integridad / fecha-hora**, no al debloat.
+- **CAUSA RAÍZ CONFIRMADA: Modo Desarrollador / Depuración USB activos.**
+  - Veritran lanza UA599 al detectar entorno de desarrollo/superusuario.
+  - Confirmado por bytepeaker.com, doncomo.com, notesread.com y Reclamos.cl
+    ("Banco Estado te Bloquea Rut Pay si tienes modo Desarrollador Activo").
+- **El debloat NO fue la causa.** Ninguna app quitada es dependencia de la banca.
+- Sin root. Se usa **Shizuku** (requiere dev mode); al apagar dev mode, Shizuku se detiene.
+- Morphe/ReVanced GMS descartado (estaba antes del 1er debloat).
+- WebView canary `157.0.8103.14` -> bajada a estable `140.0.7339.207`.
 - WebView, GMS, GSF, Play Store y Security **intactos**.
+
+## Fix (resumen)
+
+1. Apagar Modo Desarrollador + Depuración USB/inalámbrica.
+2. Detener Shizuku por completo.
+3. **Borrar DATOS** de BancoEstado (no solo caché) — la app cachea la detección.
+4. Si falla: reinstalar la app.
+5. Si aún falla: probar en otro teléfono (bloqueo del lado del banco).
+
+> Detalle completo en `4-fix-bancoestado-UA599.md`.
 
 ## Restauración total
 

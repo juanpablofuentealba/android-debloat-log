@@ -225,7 +225,93 @@ Ajustes -> Apps -> BancoEstado -> Almacenamiento -> **Borrar caché** (NO borrar
 
 ---
 
-## 10. Archivos relacionados (todos en ~/debloat/)
+## 10. INVESTIGACIÓN WEB (24-oct) — causa raíz confirmada: MODO DESARROLLADOR
+
+Se buscó en la web con el contexto real (sin root, solo Shizuku, developer mode).
+
+### 10.1 Fuentes consultadas
+
+| Fuente | URL |
+|---|---|
+| Bytepeaker | https://bytepeaker.com/android/solucion-error-ua599-en-la-aplicacion-banco-estado/ |
+| Doncomo | https://doncomo.com/como-solucionar-el-error-ua599-en-la-aplicacion-del-banco-del-estado-en-android-guia-paso-a-paso/ |
+| NotesRead | https://notesread.com/how-to-fix-the-ua599-error-in-the-banco-estado-app-on-android/ |
+| Reclamos.cl | https://www.reclamos.cl/banco_estado/reclamo/2019/nov/bancoestado_error_ua599_r5 |
+| Reclamos.cl | https://www.reclamos.cl/banco_estado/reclamo/2019/dec/bancoestado_error_ua599_r1 |
+
+### 10.2 Qué dicen las fuentes (consenso)
+
+Todas coinciden: **UA599 = la app detecta entorno de desarrollo / superusuario**.
+Textual de Bytepeaker:
+> "Usuarios que usan la aplicación Banco Estado se presentan con el error UA599,
+> debido a que la aplicación detecta si en tu móvil descargaste una aplicación que
+> otorga acceso de superusuario y tiene permisos para entrar al servicio Root."
+
+NotesRead aclara que el disparador real suele ser:
+> "Hay dos casos comunes: **la depuración USB está habilitada**, o la configuración
+> de orígenes desconocidos. [...] presione 'USB debugging' para deshabilitarlo;
+> después se recomienda **reinstalar la aplicación**. Así el sistema ya no pensará
+> que está rooted."
+
+En Reclamos.cl hay un caso titulado:
+> **"Banco Estado - DICTADURA DIGITAL Te Bloquea Rut Pay si tienes modo Desarrollador Activo"**
+
+Esto **confirma** lo que el usuario dijo por experiencia propia:
+**la app de BancoEstado NO funciona con Modo Desarrollador activo.**
+
+### 10.3 Soluciones que listan las fuentes (en orden)
+
+1. **Desactivar Depuración USB** (Ajustes -> Opciones de desarrollador).
+2. **Desactivar Modo Desarrollador** (el switch superior).
+3. **Reinstalar la app** o al menos **borrar caché Y DATOS** (la app cachea la detección).
+4. Root real: eliminarlo (SuperSU -> Full unroot). No aplica aquí (sin root).
+
+### 10.4 IMPORTANTE — Shizuku también dispara la detección
+
+Aunque se apague el Modo Desarrollador, **Shizuku** (moe.shizuku.privileged.api)
+se inicia vía **ADB / depuración inalámbrica**. Veritran puede detectar el entorno
+elevado. Por eso hay que:
+
+- Detener **Shizuku** por completo.
+- Desactivar **Depuración inalámbrica** (adb_wifi_enabled) y **Depuración USB** (adb_enabled).
+- Desactivar el **Modo Desarrollador**.
+- Recién entonces **borrar DATOS** de BancoEstado (no solo caché) o reinstalar.
+
+### 10.5 Estado verificado tras apagar el modo desarrollador
+
+```
+~/rish -c "settings get global development_settings_enabled"  -> "Server is not running"
+ps -A | grep shizuku                                            -> (vacío)
+```
+
+=> Al desactivar el Modo Desarrollador, **Shizuku se detuvo** (comportamiento esperado).
+No hay procesos shizuku/rish activos. Esto es BUENO para pasar la validación del banco.
+
+### 10.6 Plan definitivo recomendado (con lo que tenemos)
+
+Todo SIN Shizuku (Shizuku ya está detenido y no se puede usar sin re-activar dev mode):
+
+1. Confirmar en Ajustes que **Modo Desarrollador = OFF** y **Depuración USB = OFF**.
+2. Ajustes -> Apps -> BancoEstado -> Almacenamiento -> **Borrar DATOS** (no solo caché).
+   - Esto borra la sesión y la detección cacheada; habrá que volver a loguearse.
+3. Abrir BancoEstado y probar.
+4. Si sigue fallando: **desinstalar BancoEstado** y reinstalarla desde Play Store.
+5. Si AÚN falla: probar la cuenta en otro teléfono (descarta bloqueo del banco).
+
+**Nota:** el usuario probó borrar SOLO caché + apagar dev mode y NO funcionó. Falta el
+paso crítico: **borrar DATOS / reinstalar** (la app guarda el resultado de la detección).
+
+### 10.7 Conclusión de causa raíz
+
+- **Causa principal confirmada por fuentes y por la experiencia del usuario:
+  Modo Desarrollador / Depuración activos => UA599.**
+- El debloat NO fue la causa (ni `stk` ni telemetría). Shizuku tampoco es instalable
+  sin activar dev mode, así que su sola presencia no basta; pero el dev mode SI.
+- Morphe/ReVanced GMS: descartado como causa raíz (estaba antes del 1er debloat).
+
+---
+
+## 11. Archivos relacionados (todos en ~/debloat/)
 
 ```
 1-lista-objetivos.sh                      # inventario (solo lectura)
