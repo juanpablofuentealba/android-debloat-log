@@ -20,11 +20,15 @@ servidores de origen desconocido** mientras la VPN está activa.
 |---|---|---|---|---|
 | **a16** | `com.android.mgstxNF` | **43500** | `/data/app/` | ❌ no |
 | **a13** | `com.lite.fczx` | **43404** | `/data/app/` | ❌ no |
-| **a13** | `com.appfactory.tidytv` | 11 | `/data/app/` | ❌ no |
+
+> **Corrección:** `com.appfactory.tidytv` (**TidyTV: Clean Android TV**, en Play
+> Store) **NO es IPTV**. Es una **app de limpieza de bloatware para Android TV**
+> y no tiene relación con Xuper. Se retiró de este documento: no es un riesgo.
 
 > **Nota:** `com.android.mgstxNF` y `com.lite.fczx` comparten el rango de
 > `versionCode` (435xx / 434xx) y el patrón de nombre ofuscado → **mismo
 > desarrollador, empaquetado distinto**. Es la misma app con dos nombres.
+> Esta similitud vale **solo** entre esos dos; no aplica a `tidytv` (ver arriba).
 
 ## Verificado en a16 (08-nov-2026)
 
@@ -85,8 +89,9 @@ asume el riesgo. Se evaluaron y descartaron por ahora:
 **a13 (vía Shizuku, sin riesgo de banco):**
 ```bash
 ~/rish -c "pm uninstall --user 0 com.lite.fczx"
-~/rish -c "pm uninstall --user 0 com.appfactory.tidytv"
 ```
+> `com.appfactory.tidytv` (TidyTV) **no se toca**: es una herramienta del
+> operador para limpiar Android TV, no está relacionada con Xuper.
 
 **a16 (requiere ADB por cable desde el MSI):**
 ```bash
