@@ -11,6 +11,7 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 | `4-fix-bancoestado-UA599.md` | Guía del fix. |
 | `5-propuesta-qwen-UA599.md` | Propuesta de solución dada por **Qwen** (basada en este repo) + **su resultado: ✅ RESOLVIÓ**. La clave: apagar la **Depuración USB (ADB)**. |
 | `7-hallazgo-adbd-sin-shizuku.md` | **Hallazgo (08-nov-2026): el UA599 lo causa `adbd` vivo, NO Shizuku.** Con Shizuku ya desinstalado la app igual fallaba; al apagar Depuración USB murió `adbd` y entró. Corrige `4-fix`. |
+| `8-xuper-iptv-riesgo-aceptado.md` | **Xuper (IPTV pirata) en a16 y a13**: paquetes, estado verificado, el conflicto VPN ↔ banca y la **decisión del operador de dejarlo como está**. No desinstalar sin permiso. |
 | `estado-a16-20261108.md` | **Estado verificado (08-nov-2026)**: qué sigue quitado, radio reinstalada a pedido, terceros pendientes, y la advertencia sobre YouTube/Photos por **Morphe (ReVanced)**. |
 | `backup_pkgs_20261023.txt` | Backup de paquetes **pre-debloat** |
 | `estado_pkgs_20261023_post-debloat.txt` | Estado de paquetes **post-debloat** |
