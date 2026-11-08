@@ -10,6 +10,7 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 | `INCIDENTE-bancoestado-UA599.md` | Informe completo: cronología, apps quitadas, estado verificado, análisis e investigación web. |
 | `4-fix-bancoestado-UA599.md` | Guía del fix. |
 | `5-propuesta-qwen-UA599.md` | Propuesta de solución dada por **Qwen** (basada en este repo) + **su resultado: ✅ RESOLVIÓ**. La clave: apagar la **Depuración USB (ADB)**. |
+| `estado-a16-20261108.md` | **Estado verificado (08-nov-2026)**: qué sigue quitado, radio reinstalada a pedido, terceros pendientes, y la advertencia sobre YouTube/Photos por **Morphe (ReVanced)**. |
 | `backup_pkgs_20261023.txt` | Backup de paquetes **pre-debloat** |
 | `estado_pkgs_20261023_post-debloat.txt` | Estado de paquetes **post-debloat** |
 | `estado_pkgs_deshabilitados_20261023.txt` | Paquetes deshabilitados |
@@ -46,6 +47,11 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 5. Abrir la app → entra sin UA599.
 
 > Detalle completo en `5-propuesta-qwen-UA599.md` y `4-fix-bancoestado-UA599.md`.
+
+> ⚠️ **Aviso (2026-11-08):** aunque el `INCIDENTE` diga que el debloat es
+> *"reversible con `install-existing`"*, eso es **incorrecto en a16**: rish sin
+> root no puede. En a16 el debloat se hace por **Ajustes** (Desinstalar /
+> Deshabilitar). Ver `estado-a16-20261108.md`.
 
 ## Lecciones / propuestas probadas
 

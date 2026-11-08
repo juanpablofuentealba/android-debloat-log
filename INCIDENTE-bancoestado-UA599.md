@@ -31,7 +31,11 @@ El UA599 apunta más a WebView / integridad / fecha-hora que al debloat.
 
 ## 3. Apps quitadas en el 1er debloat (11:15, vía rish)
 
-Formato: `OK <pkg>` = desinstalado para user 0 (reversible con `install-existing`).
+Formato: `OK <pkg>` = desinstalado para user 0.
+
+> ⚠️ **Corregido (2026-11-08):** NO era reversible por `install-existing` como se
+> creyó aquí. `4-fix-bancoestado-UA599.md` comprobó después que **rish sin root
+> no puede** `install-existing` (`Failed transaction (2147483646)`).
 
 ```
 com.miui.analytics
@@ -151,6 +155,11 @@ bash ~/debloat/3-restaurar.sh <ruta-log-concreto>   # un log especifico
 ```
 El script entiende: `QUITADO`/`OK` -> `cmd package install-existing`;
 `DESHABILITADO` -> `pm enable`.
+
+> ⚠️ **Corregido (2026-11-08):** ese `install-existing` **no funciona en a16**
+> sin root (ver `4-fix-bancoestado-UA599.md`). Por eso el debloat de a16 pasó a
+> hacerse por **Ajustes** (Desinstalar/Deshabilitar), no por Shizuku.
+> Ver `estado-a16-20261108.md`.
 
 ---
 

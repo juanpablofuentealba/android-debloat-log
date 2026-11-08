@@ -18,8 +18,8 @@ PKGS=(
   com.miui.yellowpage
   com.mi.globalbrowser
   com.mi.appfinder
-  com.miui.fm
-  com.miui.fmservice
+  # com.miui.fm / com.miui.fmservice (radio FM): REINSTALADAS a pedido del
+  # operador (08-nov-2026). Quedan FUERA de los objetivos. NO volver a sacarlas.
   com.miui.miservice
   com.xiaomi.midrop
   com.xiaomi.discover
