@@ -55,16 +55,35 @@ en versiones recientes.
 
 ## El conflicto real: dinero y VPN en el mismo teléfono
 
-Android permite **una sola VPN activa**. Si Xuper la toma, **todas** las apps
-salen por ella, incluidas las de banca.
+Android permite **una sola VPN activa**. **Mientras Xuper está en ejecución**,
+su VPN toma todo el tráfico del teléfono, incluidas las apps de banca.
 
-| Nodo | Apps financieras | Xuper | Riesgo |
-|---|---|---|---|
-| **a16** | BancoEstado, BCI/MACH, MercadoPago, PayPal, Buda, XTB, Global66, Tenpo, OnePay | sí | ⚠️ comparten red |
-| **a13** | **MercadoPago** (respaldo) | sí (`com.lite.fczx`) | ⚠️ comparten red |
+| Nodo | Apps financieras | Xuper |
+|---|---|---|
+| **a16** | BancoEstado, BCI/MACH, MercadoPago, PayPal, Buda, XTB, Global66, Tenpo, OnePay | sí |
+| **a13** | **MercadoPago** (respaldo) | sí (`com.lite.fczx`) |
 
 **No hay forma técnica de aislar la VPN a una sola app en Android.** Cualquier
 herramienta que lo prometa, no lo hace.
+
+### ⚠️ Matiz importante: el riesgo es SOLO mientras la app corre
+
+Verificado en a16 (08-nov-2026) **con Xuper cerrada**:
+
+```
+ip link | grep tun   -> sin interfaz VPN
+procesos uid 10564   -> ninguno
+```
+
+O sea: **la VPN no queda activa en segundo plano**. Cuando el operador no usa
+Xuper, el tráfico del teléfono es normal y **el banco no pasa por esa VPN**.
+
+**El operador declara que nunca usa el banco con Xuper abierta.** Con esa
+práctica, el riesgo de que la banca salga por la VPN es **bajo**.
+
+> **Regla práctica:** el riesgo se concentra en el momento de uso. Cerrar Xuper
+> del todo (no minimizada) antes de operar con el banco es suficiente para
+> evitar el cruce de tráfico.
 
 ## Decisión del operador (2026-11-08)
 
@@ -79,6 +98,7 @@ asume el riesgo. Se evaluaron y descartaron por ahora:
 ## Regla operativa mientras siga instalada
 
 1. **No abrir Xuper cuando se use la banca.** Cerrarla del todo (no minimizada).
+   El operador declara cumplir esto: nunca opera el banco con Xuper abierta.
 2. **No desinstalarla sin pedir permiso al operador.** Está en uso.
 3. Si algún día se desinstala: en **a16** requiere ADB por cable y luego
    **apagar Depuración USB** (ver `7-hallazgo-adbd-sin-shizuku.md`); en **a13**
