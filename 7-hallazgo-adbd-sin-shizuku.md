@@ -64,8 +64,14 @@ getprop persist.sys.usb.config   # debe decir: none  (o mtp)
 
 Si dice `running` / `adb` → BancoEstado dará UA599.
 
-## Relación con el re-enrolamiento
+## Sin re-enrolamiento en este caso
 
-Ya documentado en la práctica: tras apagar ADB, la app volvió a pedir
-**re-enrolar** (perder sesión/dispositivo). Este archivo se limita a la causa
-del UA599; el costo de alternar Shizuku ⟷ BancoEstado es aparte.
+Tras apagar Depuración USB, BancoEstado **entró directo**: pidió solo la
+**huella** para autenticar. **No pidió re-enrolar** ni borrar datos.
+
+O sea: **apagar `adbd` fue suficiente**. El borrado de datos / re-enrolamiento
+que sugiere `4-fix-bancoestado-UA599.md` (paso 3) fue **necesario en el
+incidente de octubre**, pero **en este caso no hizo falta**.
+
+> **Regla práctica:** primero apagar Depuración USB y probar. Solo si sigue
+> fallando, borrar datos / re-enrolar. No empezar por lo destructivo.
