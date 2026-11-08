@@ -17,6 +17,12 @@ distintas**. Veritran mira el estado de **ADB**.
 En este equipo: **sin root**, pero se usa **Shizuku** (que requiere ADB +
 depuración inalámbrica). Al cortar ADB, **Shizuku se detiene**.
 
+> ⚠️ **Ampliado (2026-11-08):** el disparador es **`adbd` vivo**, no Shizuku.
+> **Desinstalar Shizuku NO apaga ADB** — el daemon sigue y la app igual da
+> UA599. Y `persist.sys.usb.config=adb` es **persistente**, así que `adbd`
+> revive en cada arranque hasta que se apague Depuración USB.
+> Caso real y evidencia: `7-hallazgo-adbd-sin-shizuku.md`.
+
 ## Pasos definitivos (en orden)
 
 ### 1. Apagar la DEPURACIÓN USB (paso CLAVE)

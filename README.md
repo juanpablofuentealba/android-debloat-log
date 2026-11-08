@@ -10,6 +10,7 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 | `INCIDENTE-bancoestado-UA599.md` | Informe completo: cronología, apps quitadas, estado verificado, análisis e investigación web. |
 | `4-fix-bancoestado-UA599.md` | Guía del fix. |
 | `5-propuesta-qwen-UA599.md` | Propuesta de solución dada por **Qwen** (basada en este repo) + **su resultado: ✅ RESOLVIÓ**. La clave: apagar la **Depuración USB (ADB)**. |
+| `7-hallazgo-adbd-sin-shizuku.md` | **Hallazgo (08-nov-2026): el UA599 lo causa `adbd` vivo, NO Shizuku.** Con Shizuku ya desinstalado la app igual fallaba; al apagar Depuración USB murió `adbd` y entró. Corrige `4-fix`. |
 | `estado-a16-20261108.md` | **Estado verificado (08-nov-2026)**: qué sigue quitado, radio reinstalada a pedido, terceros pendientes, y la advertencia sobre YouTube/Photos por **Morphe (ReVanced)**. |
 | `backup_pkgs_20261023.txt` | Backup de paquetes **pre-debloat** |
 | `estado_pkgs_20261023_post-debloat.txt` | Estado de paquetes **post-debloat** |
@@ -52,6 +53,9 @@ Shizuku/`rish`, incluyendo el incidente del error **UA599** de BancoEstado.
 > *"reversible con `install-existing`"*, eso es **incorrecto en a16**: rish sin
 > root no puede. En a16 el debloat se hace por **Ajustes** (Desinstalar /
 > Deshabilitar). Ver `estado-a16-20261108.md`.
+
+> ⚠️ **Ampliado (2026-11-08):** la causa es **`adbd` vivo**, no Shizuku.
+> **Desinstalar Shizuku no apaga ADB.** Ver `7-hallazgo-adbd-sin-shizuku.md`.
 
 ## Lecciones / propuestas probadas
 
